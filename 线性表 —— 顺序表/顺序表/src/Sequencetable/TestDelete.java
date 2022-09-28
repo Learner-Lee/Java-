@@ -1,18 +1,11 @@
 package Sequencetable;
 
-
-public class homeworkcode2 {
+public class TestDelete {
     public static void main(String[] args) throws IllegalAccessException {
-        int src[] = {1,1,1,1,1,1,1,1,2,3,1,4,4,5,6,7,90};
-        homeworkcode2.SqListClass sq = new homeworkcode2.SqListClass();
+        int src[] = {1,1,1,1,1,1,1,1,2,3,1,4,4,4,5,6,7,8,5,5,7,4,35,6,7,90};
+        TestDelete.SqListClass sq = new TestDelete.SqListClass();
         sq.CreateList(src);
-        System.out.println("最大值为：");
-        sq.max();
-        System.out.println("重复数为");
-        sq.amound(1);
-        System.out.println("源代码为");
         System.out.println(sq.toString());
-        System.out.println("删除后");
         int[] s  = sq.delete();
         for (int o : s) {
             System.out.print(o+",");
@@ -20,7 +13,7 @@ public class homeworkcode2 {
 
     }
     public static class SqListClass  {
-        final int initcapacity = 10;
+        final int initcapacity = 20;
         public int[] data;
         public int size;
         private int capacity;
@@ -33,6 +26,8 @@ public class homeworkcode2 {
             int[] newdata= new int[newcapacity];
             for (int i = 0; i < size; i++) {
                 newdata[i]=data[i];
+
+
             }
             capacity=newcapacity;
             data=newdata;
@@ -45,8 +40,8 @@ public class homeworkcode2 {
                 }
                 data[size] = a[i];
                 size++;
-            }
 
+            }
         }
 
         public String toString(){
@@ -57,26 +52,7 @@ public class homeworkcode2 {
             return  ans;
         }
 
-        public void max(){
-            int max = data[0];
-            for (int i = 0; i < data.length; i++) {
-                if (max <= data[i]) {
-                    max = data[i];
-                }
 
-            }
-            System.out.println(max);
-        }
-
-        public void amound(int e){
-            int sum = 0;
-            for (int j = 0; j < data.length; j++) {
-                if (e == data[j]) {
-                    sum++;
-                }
-            }
-            System.out.println(sum);
-        }
         public void sort(){//冒泡排序法
             for (int i = 1; i < size; i++) {
                 for (int j = 0; j < size - i; j++) {//size - i,防止出现越界错误，并且减少循环次数
@@ -128,5 +104,6 @@ public class homeworkcode2 {
             System.arraycopy(tempArr,0,newArr,0,t);
             return newArr;
         }
+
     }
 }
