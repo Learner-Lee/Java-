@@ -11,7 +11,7 @@ public class ArrayCalculator {
         int index = 0;// 用于扫描，指针；
         int num1 = 0;
         int num2 = 0;
-        char oper = 0;
+        int oper = 0;
         int res = 0;
         char ch = ' ';//将每次扫描得到的char保存到ch
         // 开始 while 循环的扫描expression
@@ -26,7 +26,7 @@ public class ArrayCalculator {
                     if (operStack.priority(ch) <= operStack.priority(operStack.peek())) {
                         num1 = numStack.pop();
                         num2 = numStack.pop();
-                        oper = (char) operStack.pop();
+                        oper = operStack.pop();
                         res = numStack.calculate(num1,num2,oper);
                         // 把运算结果入数栈
                         numStack.push(res);
@@ -55,12 +55,12 @@ public class ArrayCalculator {
             }
             num1 = numStack.pop();
             num2 = numStack.pop();
-            oper = (char) operStack.pop();
+            oper = operStack.pop();
             res = numStack.calculate(num1,num2,oper);
             numStack.push(res);
         }
         // 将数栈最后一个数输出，就是结果
-        System.out.printf("表达式%d = %d",expression,numStack.pop());
+        System.out.printf("表达式%s = %d",expression,numStack.pop());
     }
 }
 //先定义一个栈
@@ -125,7 +125,7 @@ class ArrayStack2{
     // 拓展功能
     // 返回运算符的优先级，优先级由程序员来决定。优先级使用数字表示。
     // 数字越大优先级越高。
-    public int priority(char oper){
+    public int priority(int oper){
         if (oper == '*' || oper == '/') {
             return 1;
         }else if (oper == '+' || oper == '-') {
@@ -140,7 +140,7 @@ class ArrayStack2{
     }
 
     // 计算方法
-    public int calculate(int num1 , int num2 ,char oper){
+    public int calculate(int num1 , int num2 ,int oper){
         int res = 0;
         switch (oper) {
             case '+':
@@ -162,7 +162,7 @@ class ArrayStack2{
     }
 
     //返回当前栈顶的值，但不是出栈
-    public char peek(){
-        return (char) stack[top];
+    public int peek(){
+        return stack[top];
     }
 }
