@@ -3,7 +3,7 @@ package Calculator;
 public class ArrayCalculator {
     public static void main(String[] args) {
         // 根据思路，完成运算
-        String expression = "3+2*6-2";
+        String expression = "30+2*6-2";
         // 创建两个栈，数栈与符号栈
         ArrayStack2 numStack = new ArrayStack2(10);
         ArrayStack2 operStack = new ArrayStack2(10);
@@ -14,6 +14,7 @@ public class ArrayCalculator {
         int oper = 0;
         int res = 0;
         char ch = ' ';//将每次扫描得到的char保存到ch
+        String keepNumber = "";
         // 开始 while 循环的扫描expression
         while (true) {
             // 依次得到expression 的每一个字符
@@ -40,7 +41,31 @@ public class ArrayCalculator {
                     operStack.push(ch);
                 }
             }else {// 如果是数
-                numStack.push(ch - 48);// ASCII表
+//                numStack.push(ch - 48);// ASCII表
+                /*
+                思路分析
+                1.检查是否为多位数
+                2.再向后多扫描一位，符号则入栈，数则继续
+                3.因此我们需要定义一个字符串变量，用于拼接
+                 */
+
+                //处理多位数
+                keepNumber += ch;
+
+                //如果是最后一位，则直接入栈
+                if (index == expression.length()-1) {
+                    numStack.push(Integer.parseInt(keepNumber));
+                }else {
+
+                    //再向后多扫描一位，符号则入栈，数则继续
+                    //注意：是向后看一位，不是index++
+                    if (operStack.isoper(expression.substring(index+1,index+2).charAt(0))) {
+                        //如果后一位是运算符则入栈
+                        numStack.push(Integer.parseInt(keepNumber));
+                        //重要！清空keepNumber
+                        keepNumber = "";
+                    }
+                }
             }
             // 让index + 1，并判断是否扫描到expression最后，
             index++;
