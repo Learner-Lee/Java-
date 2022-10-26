@@ -1,8 +1,61 @@
 package queue;
 
+import java.util.Queue;
+import java.util.Scanner;
+
 public class ArrayQueueDemo {
     public static void main(String[] args) {
+        // 测试
+        // 创建一个列表
+        ArrayQueue Queue = new ArrayQueue(3);
+        char key = ' '; // 接收用户输入
+        Scanner scanner = new Scanner(System.in);
+        boolean loop = true;
+        //输出一个菜单
+        while (loop) {
+            System.out.println("s(show): 显示队列");
+            System.out.println("e(exit): 退出程序");
+            System.out.println("a(add): 添加数据到队列");
+            System.out.println("g(get) : 从队列取出数据");
+            System.out.println("h(head): 查看队列头的数据");
+            System.out.println("请输入你的选择：");
+            key = scanner.next().charAt(0);// 接收一个字符
+            switch (key) {
+                case 's':// 显示队列
+                    Queue.showQueue();
+                    break;
+                case 'a':// 添加数据
+                    System.out.println("请输入一个数");
+                    int value = scanner.nextInt();
+                    Queue.addQueue(value);
+                    break;
+                case 'g':// 取出数据
+                    try {
+                        int res = Queue.getQueue();
+                        System.out.printf("输出数据为：%d\n",res);
+                    } catch (Exception e) {
+                        System.out.println(e.getMessage());
+                    }
+                    break;
+                case 'h':// 查看头数据
+                    try {
+                        int res = Queue.headQueue();
+                        System.out.printf("头数据为：%d\n",res);
+                    } catch (Exception e) {
+                        System.out.println(e.getMessage());
+                    }
+                    break;
+                case 'e':// 退出程序
+                    scanner.close();
+                    loop = false;
+                    break;
 
+                default:
+                    break;
+            }
+
+        }
+        System.out.println("程序退出~~");
     }
 }
 
@@ -31,8 +84,22 @@ class ArrayQueue {
         return rear == front ;
     }
 
+    // 返回初值
+    public void original(){
+        if (front != -1) {
+            int differ = front +1;
+            for (int i = 0; i < arr.length - differ; i++) {
+                arr [i] = arr [differ+i];
+                arr [differ+i] = 0;
+            }
+            front = -1;
+            rear = rear - differ;
+        }
+    }
+
     // 添加数据到队列
     public void addQueue(int n){
+        original();
         // 判断队列是否满
         if (isFull()) {
             System.out.println("队列满，不能加入数据~");
@@ -44,12 +111,15 @@ class ArrayQueue {
 
     // 获取队列数据，出队列
     public int getQueue(){
+        int val = 0;
         if (isEmpty()) {
             //通过抛出异常
             throw new RuntimeException("队列空，不能取数据");
         }
         front++;
-        return arr[front];
+        val = arr[front];
+        original();
+        return val;
     }
 
     // 显示队列的所有数据
