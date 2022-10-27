@@ -2,11 +2,11 @@ package queue;
 
 import java.util.Scanner;
 
-public class ArrayQueueDemo {
+public class MyselfQueueDemo {
     public static void main(String[] args) {
         // 测试
         // 创建一个列表
-        ArrayQueue Queue = new ArrayQueue(3);
+        MyQueue Queue = new MyQueue(3);
         char key = ' '; // 接收用户输入
         Scanner scanner = new Scanner(System.in);
         boolean loop = true;
@@ -17,7 +17,7 @@ public class ArrayQueueDemo {
             System.out.println("a(add): 添加数据到队列");
             System.out.println("g(get) : 从队列取出数据");
             System.out.println("h(head): 查看队列头的数据");
-            System.out.println("请输入你的选择：");
+            System.out.println("MyQueue.请输入你的选择：");
             key = scanner.next().charAt(0);// 接收一个字符
             switch (key) {
                 case 's':// 显示队列
@@ -58,15 +58,16 @@ public class ArrayQueueDemo {
     }
 }
 
+
 // 使用数组模拟队列-编写一个ArrayQueue类
-class ArrayQueue {
+class MyQueue {
     private int maxSize;// 表示数组的最大容量
     private int front;// 队列头
     private int rear;// 队列尾
     private int[] arr;// 该数据用于存放数据，模拟队列
 
     // 创建队列的构造器
-    public ArrayQueue(int arrMaxSize){
+    public MyQueue(int arrMaxSize){
         maxSize = arrMaxSize;
         arr = new int[maxSize];
         front = -1; // 指向队列头部，分析出front是指向队列头部的前一个位置
@@ -83,8 +84,22 @@ class ArrayQueue {
         return rear == front ;
     }
 
+    // 返回初值
+    public void original(){
+        if (front != -1) {
+            int differ = front +1;
+            for (int i = 0; i < arr.length - differ; i++) {
+                arr [i] = arr [differ+i];
+                arr [differ+i] = 0;
+            }
+            front = -1;
+            rear = rear - differ;
+        }
+    }
+
     // 添加数据到队列
     public void addQueue(int n){
+        original();
         // 判断队列是否满
         if (isFull()) {
             System.out.println("队列满，不能加入数据~");
@@ -103,6 +118,7 @@ class ArrayQueue {
         }
         front++;
         val = arr[front];
+        original();
         return val;
     }
 
