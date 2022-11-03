@@ -2,11 +2,74 @@ package tree;
 
 public class BinaryTreeDemo {
     public static void main(String[] args) {
+        // 先需要创建二叉树
+        BinaryTree binaryTree = new BinaryTree();
+        // 创建所需要的结点
+        friandNode root = new friandNode(1,"法夫塔");
+        friandNode node2 = new friandNode(2,"雷姆");
+        friandNode node3 = new friandNode(3,"伊雷娜");
+        friandNode node4 = new friandNode(4,"休比");
+        friandNode node5 = new friandNode(5,"奇诺");
+
+
+        // 说明，我们先手动创建二叉树，后面我们学习用递归创建二叉树
+        root.setLeft(node2);
+        root.setRight(node3);
+        node3.setRight(node4);
+        node3.setLeft(node5);
+        binaryTree.setRoot(root);
+
+        // 测试
+        System.out.println("前序遍历");// 1,2,3,5,4
+        binaryTree.preOrder();
+
+        // 测试
+        System.out.println("中序遍历");// 2,1,5,3,4
+        binaryTree.infixOrder();
+
+        // 测试
+        System.out.println("后序遍历");// 2,5,4,3,1
+        binaryTree.postOrder();
+
+        // 前序遍历查找
+        // 遍历次数：4
+        System.out.println("前序遍历方式~~");
+        friandNode resnode1 = binaryTree.preOrderSearch(5);
+        if (resnode1 != null) {
+            System.out.printf("信息为num = %d , name = %s\n",resnode1.getNo(),resnode1.getName());
+        }else {
+            System.out.println("没有找到");
+        }
+
+        // 中序遍历查找
+        // 遍历次数：3
+        System.out.println("中序遍历方式~~");
+        friandNode resnode2 = binaryTree.infixOrderSearch(5);
+        if (resnode2 != null) {
+            System.out.printf("信息为num = %d , name = %s\n",resnode2.getNo(),resnode2.getName());
+        }else {
+            System.out.println("没有找到");
+        }
+
+
+        // 后序遍历查找
+        // 遍历次数：2
+        System.out.println("后序遍历方式~~");
+        friandNode resnode3 = binaryTree.postOrderSearch(5);
+        if (resnode3 != null) {
+            System.out.printf("信息为num = %d , name = %s\n",resnode3.getNo(),resnode3.getName());
+        }else {
+            System.out.println("没有找到");
+        }
+
 
     }
 }
 
 
+/**
+ * 给original结点赋值，并连接成二叉树
+ */
 // 定义BinaryTree 二叉树
 class BinaryTree{
     private friandNode root;
@@ -33,31 +96,63 @@ class BinaryTree{
     // 后序遍历
     public void postOrder(){
         if (this.root != null) {
-            this.root.preOrder();
+            this.root.postOrder();
         }else {
             System.out.println("二叉树为空~~");
+        }
+    }
+
+
+    // 前序遍历查找
+    public friandNode preOrderSearch(int n){
+        if (root != null) {
+            return root.preOrderSearch(n);
+        }else {
+            return null;
+        }
+    }
+    // 中序遍历查找
+    public friandNode infixOrderSearch(int n){
+        if (root != null) {
+            return root.infixOrderSearch(n);
+        }else {
+            return null;
+        }
+    }
+    // 后序遍历查找
+    public friandNode postOrderSearch(int n){
+        if (root != null) {
+            return root.postOrderSearch(n);
+        }else {
+            return null;
         }
     }
 }
 
 
-class friandNode{
-    private int no;
-    private String name;
-    private friandNode left;
-    private friandNode right;
+/**
+ * 建立二叉树
+ * 建立original结点，并定义方法
+ */
 
-    public friandNode(int no, String name) {
-        this.no = no;
+class friandNode{
+    private int num; // 需要赋值
+    private String name; // 需要赋值
+    private friandNode left; // 左子树
+    private friandNode right;// 右子树
+
+    public friandNode(int no, String name) { // 赋初值
+        this.num = no;
         this.name = name;
     }
 
+    // 给与修改权
     public int getNo() {
-        return no;
+        return num;
     }
 
     public void setNo(int no) {
-        this.no = no;
+        this.num = num;
     }
 
     public String getName() {
@@ -87,7 +182,7 @@ class friandNode{
     @Override
     public String toString() {
         return "friandNode{" +
-                "no=" + no +
+                "num=" + num +
                 ", name='" + name + '\'' +
                 '}';
     }
@@ -124,13 +219,97 @@ class friandNode{
     public void postOrder(){
         //递归左子树遍历
         if (this.left != null) {
-            this.left.infixOrder();
+            this.left.postOrder();
         }
         //递归右子树遍历
         if (this.right != null) {
-            this.right.infixOrder();
+            this.right.postOrder();
         }
         // 先输出父结点
         System.out.println(this);
+    }
+
+
+    // 前序遍历查找
+    /**
+     * no  查找no
+     * 找到返回node ，没有返回null
+     */
+    public friandNode preOrderSearch(int n){
+        System.out.printf("前序遍历查询 ------------ %d\n", 1);
+        // 比较当前节点是不是
+        if (this.num == n) {
+            return this;
+        }
+        // 1.判断当前节点的左节点是否为空，如果不为空，则递归前序查找
+        // 2.如果左递归前序查找，找到结点，则返回
+        friandNode resNode = null ;
+        if (this.left != null) {
+            resNode = this.left.preOrderSearch(n);
+        }
+        if (resNode != null) {
+            return resNode;
+        }
+        // 1.如果没找到，继续判断
+        // 2.当前结点的右节点是否为空，如果不为空，则继续向右查找
+        if (this.right != null) {
+            resNode = this.right.preOrderSearch(n);
+        }
+        // 无论何值直接返回
+        return resNode;
+    }
+
+    // 中序遍历查找
+    public friandNode infixOrderSearch(int n){
+
+        //判断当前结点的左子结点是否为空，如果不为空，则递归中序查找
+        friandNode resNode = null ;
+        if (this.left != null) {
+            resNode = this.left.infixOrderSearch(n);
+        }
+        if (resNode != null) {
+            return resNode;
+        }
+
+
+        System.out.printf("前序遍历查询 ------------ %d\n", 2);
+        // 如果找到，则返回，如果没有找到，就和当前结点比较，如果是则返回当前结点
+        if (this.num == n) {
+            return this;
+        }
+
+        // 否则继续进行右递归的中序查找
+        if (this.right != null) {
+            resNode = this.right.infixOrderSearch(n);
+        }
+        return resNode;
+    }
+
+    // 后序遍历查找
+    public friandNode postOrderSearch(int n){
+
+        //判断当前结点的左子结点是否为空，如果不为空，则递归后序查找
+        friandNode resNode = null ;
+        if (this.left != null) {
+            resNode = this.left.postOrderSearch(n);
+        }
+        if (resNode != null) {
+            return resNode;
+        }
+        //如果左子树没有找到，则向右递归进行后序遍历查找
+        if (this.right != null) {
+            resNode = this.right.postOrderSearch(n);
+        }
+        if (resNode != null) {
+            return resNode;
+        }
+
+
+        System.out.printf("前序遍历查询 ------------ %d\n", 3);
+        // 如果左右子树都没有找到，就比较当前结点是不是
+        if (this.num == n) {
+            return this;
+        }
+        return resNode;
     }
 }
