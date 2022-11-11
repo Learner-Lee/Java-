@@ -125,7 +125,7 @@ class CirculationQueue{
             System.out.println("队列空，没有数据~");
             return;
         }
-        for (int i = front; i < front + size(); i++) {
+        for (int i = front; i < front + size(); i++) {// 为什么不会越界
             System.out.printf("arr[%d]=%d\n", i % maxSize, arr[i % maxSize]);
         }
     }
