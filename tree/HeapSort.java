@@ -1,9 +1,28 @@
 package tree;
 
+
+import BasePackage.CurrentTime;
+import BasePackage.LargeNumArr;
+
 import java.util.Arrays;
 
 public class HeapSort {
     public static void main(String[] args) {
+        // 开始时间
+        CurrentTime currentTime = new CurrentTime();
+        String Time1 = currentTime.nowtime();
+        System.out.println(Time1);
+        // 程序运行时间
+        long startTime = System.currentTimeMillis();     //获取开始时间
+
+        //要测运行时间的程序代码
+        LargeNumArr largeNumArr = new LargeNumArr();
+        int[] a = largeNumArr.largeArr();
+        Sort(a);
+
+        long overTime = System.currentTimeMillis();      //获取结束时间
+        System.out.println("程序运行时间为："+(overTime-startTime)+"毫秒");
+
         // 要求将数组进行升序排列
         int[] arr = {4,6,8,169247,5,9,78,10,};
         Sort(arr);
