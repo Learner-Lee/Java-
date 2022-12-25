@@ -8,6 +8,8 @@ public class graph {
     private ArrayList<String> vertexList;//存储顶点集合
     private int[][] edges;//存储图对应的邻结矩阵
     private int numedges;//边的数目
+    // 定义给数组Boolean[],记录某个结点是否被访问
+    private boolean[] isvisited ;
 
     public static void main(String[] args) {
         // 测试
@@ -31,6 +33,11 @@ public class graph {
 
         //显示矩阵
         graph.showGraph();
+
+
+        // 测试dfs遍历
+        System.out.println("深度遍历");
+        graph.dfs();
     }
 
     // 构造器
@@ -39,6 +46,7 @@ public class graph {
         edges = new int[n][n];
         vertexList = new ArrayList<String>(n);
         numedges = 0;
+        isvisited = new boolean[n];
     }
 
     //插入结点
@@ -58,6 +66,31 @@ public class graph {
         edges[v2][v1] = weight;
         numedges++;
     }
+
+    // 得到第一个邻接结点的下标
+    /**
+     *
+     * @param index 提供下标
+     * @return 如果存在就返回下标，否则返回-1
+     */
+    public int getFirstNeighbor(int index){
+        for (int j = 0; j < vertexList.size(); j++) {
+            if (edges[index][j] > 0) {
+                return j;
+            }
+        }
+        return -1;
+    }
+    // 根据前一个邻接结点的下标来获取下一个邻接结点
+    public int getNextNeighbor(int v1,int v2){
+        for (int j = v2 + 1; j < vertexList.size(); j++) {
+            if (edges[v1][j] > 0) {
+                return j;
+            }
+        }
+        return -1;
+    }
+
 
     // 图中常用的方法
     // 1. 返回结点的个数
@@ -80,6 +113,34 @@ public class graph {
     public void showGraph(){
         for (int[] link: edges) {
             System.out.println(Arrays.toString(link));
+        }
+    }
+
+    // 深度优先遍历算法
+    // i 第一次就是0
+    private void dfs(boolean[] isvisited,int i){
+        // 首先我们访问该节点，输出
+        System.out.print(getValueByIndex(i)+"->");
+        // 将结点设置为已经访问
+        isvisited[i] = true;
+        // 查找结点i的第一个邻接结点W
+        int w = getFirstNeighbor(i);
+        while (w != -1) {// 说明有邻接结点
+            if (!isvisited[w]) {
+                dfs(isvisited,w);
+            }
+            // 如果w结点已经被访问过
+            w = getNextNeighbor(i,w);
+        }
+    }
+
+    // 对dfs 进行一个重载，遍历我们所有的结点，并进行dfs
+    public void dfs(){
+        // 遍历所有的结点，进行dfs[回溯]
+        for (int i = 0; i < getNumVertex(); i++) {
+            if (!isvisited[i]) {
+                dfs(isvisited,i);
+            }
         }
     }
 
