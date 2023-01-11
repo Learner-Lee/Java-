@@ -7,16 +7,25 @@ public class Dayone {
         ListNode head = new ListNode();
         ListNode p;
         p = head.next;
-        p= new ListNode(12) ;
+        p= new ListNode(2) ;
+        p.next= new ListNode(4) ;
+        p.next.next= new ListNode(3) ;
         ListNode head1 = new ListNode();
         ListNode p1;
         p1 = head.next;
-        p1= new ListNode(22) ;
+        p1= new ListNode(5) ;
+        p1.next= new ListNode(6) ;
+        p1.next.next= new ListNode(4) ;
         ListNode head2 = new ListNode();
         ListNode p2;
         p2 = head.next;
-        Solution a = new Solution();
+        Solution01 a = new Solution01();
         p2 = a.addTwoNumbers(p,p1);
+        while (p2 != null) {
+            System.out.println("");
+            System.out.print(p2.val);
+            p2 = p2.next;
+        }
 
     }
 }
@@ -38,10 +47,11 @@ class ListNode {
         this.next = next;
     }
 }
-class Solution {
-    String num = "";
-    int num1 = 0;
+class Solution01 {
     public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
+        String num = "";
+        int num1 = 0;
+        char[] res;
         ListNode head = new ListNode();
         ListNode p;
         p = head.next;
@@ -49,22 +59,21 @@ class Solution {
             num = l1.val + num;
             l1 = l1.next;
         }
+        System.out.println(num);
         num1 = Integer.parseInt(num);
         num = "";
         while (l2 != null) {
-            num = l2.val + num;
+            num =  l2.val + num   ;
             l2 = l2.next;
         }
+//        System.out.println(num);
         num1 = Integer.parseInt(num)+num1;
         num = String.valueOf(num1);
-        System.out.println(num);
-        char[] res = num.toCharArray();
-
-        String str="Hello everyone! ";
-        char[] c=num .toCharArray();
-        for(int count=0;count<num.length();count++){
-            System.out.print(c[count]+" ");
-            String i1 = String.valueOf(c[count]);
+//        System.out.println(num);
+        res = num.toCharArray();
+        for(int count=0;count < num.length();count++){
+//            System.out.print(res[count]+" ");
+            String i1 = String.valueOf(res[count]);
             int a = Integer.parseInt(i1);
             p = new ListNode(a);
             p.next = head.next;
