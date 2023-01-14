@@ -5,7 +5,7 @@ import java.util.List;
 
 public class Daytwo {
     public static void main (String[] args) {
-        Solution02 a = new Solution02();
+        Solutionx02 a = new Solutionx02();
         int b = a.lengthOfLongestSubstring("adcadcdd");
         System.out.println(b);
     }
@@ -35,6 +35,20 @@ class Solution02 {
             }
             return num;
         }
+    }
+}
+
+class Solutionx02 {
+    public int lengthOfLongestSubstring(String s) {
+        int n = s.length(), ans = 0;
+        int[] index = new int[128]; // current index of character
+        // try to extend the range [i, j]
+        for (int j = 0, i = 0; j < n; j++) {
+            i = Math.max(index[s.charAt(j)], i);
+            ans = Math.max(ans, j - i + 1);
+            index[s.charAt(j)] = j + 1;
+        }
+        return ans;
     }
 }
 
