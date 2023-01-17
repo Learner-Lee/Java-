@@ -2,13 +2,13 @@ package NewBegin;
 
 public class Dayfive {
     public static void main (String[] args) {
-        Solution s = new Solution();
+        Solution05 s = new Solution05();
         String str = s.convert("PAYPALISHIRING",3);
         System.out.println(str);
     }
 }
 
-class Solution {
+class Solution05 {
     public String convert (String s,int numRows) {
         char[] a = s.toCharArray();
         char[][] inside = new char[numRows][s.length()];
