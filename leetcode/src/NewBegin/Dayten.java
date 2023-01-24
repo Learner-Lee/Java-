@@ -1,7 +1,6 @@
 package NewBegin;
 
 
-import java.util.Arrays;
 
 public class Dayten {
     public static void main (String[] args) {
