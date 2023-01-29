@@ -5,7 +5,7 @@ import java.util.*;
 public class Dayfourteen {
     public static void main (String[] args) {
         int[] nums = {-1,0,1,2,-1,-4};
-        Solution14 s = new Solution14();
+        Solutionx14 s = new Solutionx14();
         List<List<Integer>> list = s.threeSum(nums);
 
         System.out.println("方法一：输出list元素");
@@ -71,45 +71,54 @@ class Solution14 {
 }
 
 
-
+/**
+ * 编程思路：
+ * 运用双指针对程序进行遍历（这会减少所需要是时间）
+ * 将得到的数相加，以便于控制指针的运动
+ * 大于 0 right移动(使和变小)
+ * 小于 0 left移动(使和变大)
+ * 等于 0 同时移动(如果单独动其中一个，则绝对不会出现想要的结果)
+ */
 class Solutionx14 {
     public List<List<Integer>> threeSum(int[] nums) {
-        int n = nums.length;
+        //结果链表
+        List<List<Integer>> res = new ArrayList<>();
+        int len = nums.length;
+        //先进行排序
         Arrays.sort(nums);
-        List<List<Integer>> ans = new ArrayList<List<Integer>>();
-        // 枚举 a
-        for (int first = 0; first < n; ++first) {
-            // 需要和上一次枚举的数不相同
-            if (first > 0 && nums[first] == nums[first - 1]) {
+        for(int i = 0;i < len-2; i ++){
+            //大于0提前结束
+            if(nums[i] > 0){
+                break;
+            }
+            //去重
+            if(i > 0 && nums[i] == nums[i-1]){
                 continue;
             }
-            // c 对应的指针初始指向数组的最右端
-            int third = n - 1;
-            int target = -nums[first];
-            // 枚举 b
-            for (int second = first + 1; second < n; ++second) {
-                // 需要和上一次枚举的数不相同
-                if (second > first + 1 && nums[second] == nums[second - 1]) {
-                    continue;
+            int left = i+1;
+            int right = nums.length-1;
+            while(left < right){
+                int sum = nums[i]+nums[left]+nums[right];
+                if(sum==0){
+                    //数字一样跳过 防止重复
+                    res.add(Arrays.asList(nums[i],nums[left],nums[right]));
+                    while(left<right&&nums[left]==nums[left+1])
+                        left++;
+                    while(left<right&&nums[right]==nums[right-1])
+                        right--;
+                    left ++;
+                    right --;
                 }
-                // 需要保证 b 的指针在 c 的指针的左侧
-                while (second < third && nums[second] + nums[third] > target) {
-                    --third;
+                //小 右移
+                else if(sum < 0){
+                    left++;
                 }
-                // 如果指针重合，随着 b 后续的增加
-                // 就不会有满足 a+b+c=0 并且 b<c 的 c 了，可以退出循环
-                if (second == third) {
-                    break;
-                }
-                if (nums[second] + nums[third] == target) {
-                    List<Integer> list = new ArrayList<Integer>();
-                    list.add(nums[first]);
-                    list.add(nums[second]);
-                    list.add(nums[third]);
-                    ans.add(list);
+                //大 左移
+                else {
+                    right--;
                 }
             }
         }
-        return ans;
+        return res;
     }
 }
