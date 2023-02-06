@@ -1,6 +1,5 @@
 package NewBegin;
 
-import java.util.List;
 
 public class Dayone {
     public static void main (String[] args) {
@@ -46,6 +45,7 @@ class ListNode {
         this.val = val;
         this.next = next;
     }
+
 }
 class Solution01 {
     public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
